@@ -1,5 +1,7 @@
 package com.example.ting_jhih.chef_v1.Service;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,6 +26,7 @@ public class ChefServer {
             requestToServer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"), true);
         } catch (IOException e) {
             System.out.println("ChefServer connect error:"+e.toString());
+            Log.d("ChefServer", "ChefServer connect error:"+e.toString());
         }
     }
     public void close(){
@@ -32,11 +35,13 @@ public class ChefServer {
             socket.close();
         } catch (IOException e) {
             System.out.println("ChefServer close error:" + e.toString());
+            Log.d("ChefServer", "ChefServer close error:" + e.toString());
         }
     }
     public void request(String request){
         requestToServer.println(request);
     }
+
     public ArrayList<String> respond(){
         ArrayList<String> ar = new ArrayList<String>();
         try {
@@ -46,13 +51,14 @@ public class ChefServer {
                     break;
                 }else if(message != null){
                     ar.add(message);
+                    Log.d("ChefServer respond",message);
                 }
             }
             return ar;
         } catch (IOException e) {
             System.out.println("ChefServer respond error:"+e.toString());
+            Log.d("ChefServer", "ChefServer respond error:"+e.toString());
         }
         return null;
     }
-
 }

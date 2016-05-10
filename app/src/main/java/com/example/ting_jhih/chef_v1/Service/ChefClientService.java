@@ -4,13 +4,8 @@ import android.util.Log;
 /**
  * Created by Ting-Jhih on 2016/5/3.
  */
-public class ChefClientService implements Runnable {
+public class ChefClientService {
     public ChefClientService() {
-
-    }
-
-    @Override
-    public void run() {
         ChefServer cs = new ChefServer();
         cs.connect();
         cs.request("{'requestServiceType':'ChefClientService','requestService':'connectToServer','requestInt':123}");

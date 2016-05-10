@@ -10,18 +10,23 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ting_jhih.chef_v1.Service.OrderMealService;
+
 /**
  * Created by Ting-Jhih on 2016/5/7.
  */
 public class OrderMenu extends AppCompatActivity {
     ExpandableListView menuList;
     Button change;
+    Button test;
+    OrderMealService oms;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_menu);
         menuList = (ExpandableListView) findViewById(R.id.menuListView);
         change = (Button)findViewById(R.id.change);
+        test = (Button)findViewById(R.id.test);
 
         final MyExpandableListViewAdapter myAdapter = new MyExpandableListViewAdapter();
         menuList.setAdapter(myAdapter);
@@ -32,6 +37,13 @@ public class OrderMenu extends AppCompatActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Toast.makeText(OrderMenu.this, "click"
                         + myAdapter.getChild(groupPosition, childPosition), Toast.LENGTH_LONG).show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        OrderMealService oms = new OrderMealService();
+                        oms.orderMeal(0, 0, 7, 0);
+                    }
+                }).start();
                 return false;
             }
         });
@@ -39,7 +51,22 @@ public class OrderMenu extends AppCompatActivity {
         change.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myAdapter.setChange();
+                //myAdapter.setChange();
+                if (oms != null) {
+                    oms.close();
+                }
+            }
+        });
+        test.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        oms = new OrderMealService();
+                        oms.getStatus(0);
+                    }
+                }).start();
             }
         });
 

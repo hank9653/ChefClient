@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                    new Thread(new ChefClientService()).start();
+                    new ChefClientService();
                     ////MenuService ms = new MenuService();
                     //ms.getMenu();
             }
